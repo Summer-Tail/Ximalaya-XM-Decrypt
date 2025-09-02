@@ -144,6 +144,9 @@ def decrypt_xm_file(from_file, output_path='./output'):
     print(f"正在解密{from_file}")
     data = read_file(from_file)
     info, audio_data = xm_decrypt(data)
+    replace_list = ['\\', '/', ':', '?', '"', '<', '>', '|']
+    for replace in replace_list:
+        info.album = info.album.replace(replace, "")
     output = f"{output_path}/{replace_invalid_chars(info.album)}/{replace_invalid_chars(info.title)}.{find_ext(audio_data[:0xff])}"
     if not os.path.exists(f"{output_path}/{replace_invalid_chars(info.album)}"):
         os.makedirs(f"{output_path}/{replace_invalid_chars(info.album)}")
